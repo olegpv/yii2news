@@ -8,6 +8,7 @@ use yii\web\Controller;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
+use app\models\News;
 
 class SiteController extends Controller
 {
@@ -60,8 +61,16 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        //$news=News::find()->orderBy('created_at')->limit(\Yii::$app->params['numPreviewNewsOnMainPage'])->all();
+        $dataProvider = new \yii\data\ActiveDataProvider([
+            'query' => News::find(),
+            'pagination' => [
+                'pageSize' => \Yii::$app->params['numPreviewNewsOnMainPage'],
+            ],
+        ]);
+        return $this->render('index',['dataProvider'=>$dataProvider]);
     }
+
 
     /**
      * Login action.

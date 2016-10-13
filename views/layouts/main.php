@@ -33,25 +33,45 @@ AppAsset::register($this);
             'class' => 'navbar-inverse navbar-fixed-top',
         ],
     ]);
-    echo Nav::widget([
-        'options' => ['class' => 'navbar-nav navbar-right'],
-        'items' => [
-            ['label' => 'Home', 'url' => ['/site/index']],
-            ['label' => 'About', 'url' => ['/site/about']],
-            ['label' => 'Contact', 'url' => ['/site/contact']],
-            Yii::$app->user->isGuest ? (
-                ['label' => 'Login', 'url' => ['/user/security/login']]
-            ) : (
+    $menuItems = [
+        ['label' => 'Home', 'url' => ['/site/index']],
+    ];
+    if (\Yii::$app->user->can('createPost')) {
+        $menuItems[] = ['label' => 'News', 'url' => ['/admin/news']];
+    }
+    $menuItems[] =
+        Yii::$app->user->isGuest ? (
+        ['label' => 'Login', 'url' => ['/user/security/login']]
+        ) : (
+        ['label' => Yii::$app->user->identity->username,
+            'items' => [
+                [
+                    'label' => 'Profile',
+                    'url' => ['/user/settings/profile'],
+
+                ],
+
                 '<li>'
-                . Html::beginForm(['/user/security/logout'], 'post', ['class' => 'navbar-form'])
+                . Html::beginForm(['/user/security/logout'], 'post', ['class' => ''])
                 . Html::submitButton(
                     'Logout (' . Yii::$app->user->identity->username . ')',
                     ['class' => 'btn btn-link']
                 )
                 . Html::endForm()
-                . '</li>'
-            )
-        ],
+                . '</li>',
+
+                //'<li class="divider"></li>',
+//                    '<li class="dropdown-header">Dropdown Header</li>',
+//                    ['label' => 'Level 1 - Dropdown B', 'url' => '#'],
+            ]
+]
+
+
+
+        );
+    echo Nav::widget([
+        'options' => ['class' => 'navbar-nav navbar-right'],
+        'items' => $menuItems,
     ]);
     NavBar::end();
     ?>

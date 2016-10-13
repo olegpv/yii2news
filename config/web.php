@@ -16,6 +16,12 @@ $config = [
                 'reconfirmationSubject' => 'Email change subject',
                 'recoverySubject'       => 'Recovery subject',
             ],
+            //'admins' => ['admin']
+            //'adminPermission'=>'admin',
+        ],
+        //'rbac' => 'dektrium\rbac\RbacWebModule',
+        'admin' => [
+            'class' => 'app\modules\admin\AdminModule',
         ],
     ],
     'components' => [
@@ -33,6 +39,9 @@ $config = [
 
             //'identityClass' => 'app\models\User',
             'enableAutoLogin' => true,
+        ],
+        'authManager' => [
+            'class' => 'yii\rbac\PhpManager',
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',

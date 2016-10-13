@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "55fea58bc6924ef1210b4aab51e8af7d",
-    "content-hash": "5718b991617028a1d87e4dcfa7a9c1ca",
+    "hash": "6c0fb45a994b150e26b3d29ad82e5a7f",
+    "content-hash": "c425d2103f7b4e4efcf73a1e4a285d4f",
     "packages": [
         {
             "name": "bower-asset/bootstrap",
@@ -356,6 +356,52 @@
                 "html"
             ],
             "time": "2016-07-16 12:58:58"
+        },
+        {
+            "name": "insolita/yii2-migration-generator",
+            "version": "2.2.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Insolita/yii2-migrik.git",
+                "reference": "e4fdd4002213b3409d3905d2ae8e07546b9a8390"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Insolita/yii2-migrik/zipball/e4fdd4002213b3409d3905d2ae8e07546b9a8390",
+                "reference": "e4fdd4002213b3409d3905d2ae8e07546b9a8390",
+                "shasum": ""
+            },
+            "require": {
+                "yiisoft/yii2": "*"
+            },
+            "require-dev": {
+                "yiisoft/yii2-gii": "*"
+            },
+            "type": "yii2-extension",
+            "extra": {
+                "bootstrap": "insolita\\migrik\\Bootstrap"
+            },
+            "autoload": {
+                "psr-4": {
+                    "insolita\\migrik\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "insolita",
+                    "email": "donnainsolita@gmail.com"
+                }
+            ],
+            "description": "Set of gii tools for generating  files for migration by schema of table , phpdoc or table data",
+            "keywords": [
+                "extension",
+                "yii2"
+            ],
+            "time": "2016-10-04 04:05:50"
         },
         {
             "name": "swiftmailer/swiftmailer",
