@@ -1,9 +1,9 @@
 <?php
 
-namespace app\controllers;
+namespace app\modules\news\controllers;
 
 use Yii;
-use app\models\News;
+use app\modules\news\models\News;
 
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;

@@ -2,103 +2,55 @@
 
 namespace app\models;
 
-class User extends \yii\base\Object implements \yii\web\IdentityInterface
+use dektrium\user\models\User as BaseUser;
+use app\modules\sender\models\Sender;
+
+class User extends BaseUser
 {
-    public $id;
-    public $username;
-    public $password;
-    public $authKey;
-    public $accessToken;
-
-    private static $users = [
-        '100' => [
-            'id' => '100',
-            'username' => 'admin',
-            'password' => 'admin',
-            'authKey' => 'test100key',
-            'accessToken' => '100-token',
-        ],
-        '101' => [
-            'id' => '101',
-            'username' => 'demo',
-            'password' => 'demo',
-            'authKey' => 'test101key',
-            'accessToken' => '101-token',
-        ],
-    ];
-
-
-    /**
-     * @inheritdoc
-     */
-    public static function findIdentity($id)
-    {
-        return isset(self::$users[$id]) ? new static(self::$users[$id]) : null;
+    private $_role;
+    public function rules() {
+        return array_merge(parent::rules(),[
+            ['role','safe']
+        ]);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public static function findIdentityByAccessToken($token, $type = null)
-    {
-        foreach (self::$users as $user) {
-            if ($user['accessToken'] === $token) {
-                return new static($user);
-            }
+    public function setRole($value){
+        $this->_role=$value;
+    }
+
+    public function getRole(){
+        $roles=\Yii::$app->authManager->getRolesByUser($this->id);
+        if(count($roles)==0){
+            return \Yii::$app->params['defaultRole'];
         }
 
-        return null;
+        return array_pop($roles)->name;
     }
 
-    /**
-     * Finds user by username
-     *
-     * @param string $username
-     * @return static|null
-     */
-    public static function findByUsername($username)
-    {
-        foreach (self::$users as $user) {
-            if (strcasecmp($user['username'], $username) === 0) {
-                return new static($user);
+    public function afterSave($insert, $changedAttributes) {
+        parent::afterSave($insert, $changedAttributes);
+        if($this->_role) {
+            $auth = \Yii::$app->authManager;
+            $role= $auth->getRole($this->_role);
+            if($role) {
+                $auth->revokeAll($this->getId());
+                $auth->assign($role, $this->getId());
             }
         }
-
-        return null;
     }
 
     /**
-     * @inheritdoc
+     * @return \yii\db\ActiveQuery
      */
-    public function getId()
+    public function getUserSenders()
     {
-        return $this->id;
+        return $this->hasMany(UserSender::className(), ['user_id' => 'id'])->inverseOf('user');
     }
-
     /**
-     * @inheritdoc
+     * @return \yii\db\ActiveQuery
      */
-    public function getAuthKey()
+    public function getSenders()
     {
-        return $this->authKey;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function validateAuthKey($authKey)
-    {
-        return $this->authKey === $authKey;
-    }
-
-    /**
-     * Validates password
-     *
-     * @param string $password password to validate
-     * @return boolean if password provided is valid for current user
-     */
-    public function validatePassword($password)
-    {
-        return $this->password === $password;
+        return $this->hasMany(Sender::className(), ['id' => 'sender_id'])->via('userSenders');
     }
 }

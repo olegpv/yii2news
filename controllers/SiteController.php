@@ -8,7 +8,7 @@ use yii\web\Controller;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
-use app\models\News;
+use app\modules\news\models\News;
 
 class SiteController extends Controller
 {

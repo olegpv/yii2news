@@ -39,6 +39,9 @@ AppAsset::register($this);
     if (\Yii::$app->user->can('createPost')) {
         $menuItems[] = ['label' => 'News', 'url' => ['/admin/news']];
     }
+    if (\Yii::$app->user->can('userManage')) {
+        $menuItems[] = ['label' => 'Users', 'url' => ['/user/admin/index']];
+    }
     $menuItems[] =
         Yii::$app->user->isGuest ? (
         ['label' => 'Login', 'url' => ['/user/security/login']]

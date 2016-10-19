@@ -17,11 +17,21 @@ $config = [
                 'recoverySubject'       => 'Recovery subject',
             ],
             //'admins' => ['admin']
-            //'adminPermission'=>'admin',
+            'adminPermission'=>'admin',
+            'modelMap' => [
+                'User' => 'app\models\User',
+                'Profile' => 'app\models\Profile',
+            ],
         ],
         //'rbac' => 'dektrium\rbac\RbacWebModule',
         'admin' => [
-            'class' => 'app\modules\admin\AdminModule',
+            'class' => 'app\modules\admin\Module',
+        ],
+        'news' => [
+            'class' => 'app\modules\news\Module',
+        ],
+        'sender' => [
+            'class' => 'app\modules\sender\Module',
         ],
     ],
     'components' => [
@@ -71,6 +81,13 @@ $config = [
             ],
         ],
         */
+        'view' => [
+            'theme' => [
+                'pathMap' => [
+                    '@dektrium/user/views' => '@app/views/user'
+                ],
+            ],
+        ],
     ],
     'params' => $params,
 ];
